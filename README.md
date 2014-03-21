@@ -1,7 +1,7 @@
 NodeJS-OLS
 =========
 
-A linear algebra implementation of ordinary least squares regression as a Node JS module with optional controls for heterskedasticity
+A linear algebra implementation of ordinary least squares regression as a Node JS module with optional controls for heteroskedasticity
 
 Note: Although I have tested this for accuracy, please do not base any work on it without first testing it yourself.
 
@@ -38,4 +38,4 @@ The third optional parameter allows for heteroskedasticity robust standard error
 ols.reg(Y,X,true)
 ```
 
-The regression results are returned in an object with one key for the test overall, and one key for each parameter.
+The regression results are returned in an object with one key for the test overall, and one key for each parameter. The function will return an error if there is multicollinearity or if you attempt to estimate more parameters than there are observations.
