@@ -38,4 +38,4 @@ The third optional parameter allows for heteroskedasticity robust standard error
 ols.reg(Y,X,true)
 ```
 
-The regression results are returned in an object with one key for the test overall, and one key for each parameter. The function will return an error if there is multicollinearity or if you attempt to estimate more parameters than there are observations.
+The regression results are returned in an object with one key for the test overall, and one key for each parameter including a constant. The function will return an error if there is multicollinearity or if you attempt to estimate more parameters than there are observations.
