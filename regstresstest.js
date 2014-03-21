@@ -39,5 +39,5 @@ while (sec<=paramslimit){
 }
 
 console.log("Maximum observations in "+obslimit+" second(s) with one parameter: " + maxobs);
-console.log("Maximum parameters in "+obslimit+" second(s) with minimum observations: " + maxparams);
+console.log("Maximum parameters in "+paramslimit+" second(s) with minimum observations: " + maxparams);
 console.log("Stress test complete.");
