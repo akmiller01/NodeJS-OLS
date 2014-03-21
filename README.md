@@ -22,8 +22,8 @@ var ols = require('./ols.js'),
 Your dependent variable must be in a matrix of the dimensions N x 1 where N is the number of observations, and your independent variables must be in a matrix of the dimensions N x K where K is your number of parameters.
 
 ``` javascript
-var Y = $M([1],[2],[3]),
-    X = $M([1,2,3],[1,2,3],[1,2,3]);
+var Y = $M([[1],[2],[3]]),
+    X = $M([[1,2,3],[1,2,3],[1,2,3]]);
 ```
 
 After that point, you can perform an OLS regression in the following way:
