@@ -37,3 +37,5 @@ The third optional parameter allows for heteroskedasticity robust standard error
 ``` javascript
 ols.reg(Y,X,true)
 ```
+
+The regression results are returned in an object with one key for the test overall, and one key for each parameter.
