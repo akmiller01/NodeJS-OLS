@@ -20,11 +20,11 @@ function reg(Y, X1, Robust) {
     var Ones = sylvester.Matrix.Ones(X1.rows(),1),
         X = Ones.augment(X1),
         n = X.rows(),
-        k = X.cols();
-    if ((X.transpose().x(X)).inverse() === null) return "Collinearity error";
+        k = X.cols(),
+        XtransXinv = (X.transpose().x(X)).inverse();
+    if (XtransXinv === null) return "Collinearity error";
     if (n-k<=0) return "Too few degrees of freedom for estimating unknowns";
-    var XtransXinv = (X.transpose().x(X)).inverse(),
-        B = XtransXinv.x((X.transpose().x(Y))),
+    var B = XtransXinv.x((X.transpose().x(Y))),
         Yhat = X.x(B),
         E = Y.subtract(Yhat),
         S2 = (E.transpose().x(E)).x(1/(n-B.rows())).e(1,1),
