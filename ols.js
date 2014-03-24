@@ -23,19 +23,20 @@ function reg(Y, X1, Robust) {
         k = X.cols();
     if ((X.transpose().x(X)).inverse() === null) return "Collinearity error";
     if (n-k<=0) return "Too few degrees of freedom for estimating unknowns";
-    var B = (X.transpose().x(X)).inverse().x((X.transpose().x(Y))),
+    var XtransXinv = (X.transpose().x(X)).inverse(),
+        B = XtransXinv.x((X.transpose().x(Y))),
         Yhat = X.x(B),
         E = Y.subtract(Yhat),
         S2 = (E.transpose().x(E)).x(1/(n-B.rows())).e(1,1),
         RMSE = Math.sqrt(S2),
-        VarCov = (X.transpose().x(X)).inverse().map(function(d){return d*S2;}),
+        VarCov = XtransXinv.map(function(d){return d*S2;}),
         SE = VarCov.diagonal().map(function(d){return Math.sqrt(d);}),
         Tstat = B.col(1).toDiagonalMatrix().x(SE.toDiagonalMatrix().inverse()).diagonal(),
         Ybar = Y.col(1).toDiagonalMatrix().trace()/n,
         R2 = 1-((E.transpose().x(E)).e(1,1)/((Y.map(function(d){return d-Ybar;})).transpose().x((Y.map(function(d){return d-Ybar;})))).e(1,1)),
         E2 = E.x(E.transpose()),
         Vhat = E2.diagonal().toDiagonalMatrix(),
-        RVarCov = (X.transpose().x(X)).inverse().x(X.transpose()).x(Vhat.transpose()).x(X).x((X.transpose().x(X)).inverse()).map(function(d){return d*(n/(n-k));}),
+        RVarCov = XtransXinv.x(X.transpose()).x(Vhat.transpose()).x(X).x(XtransXinv).map(function(d){return d*(n/(n-k));}),
         RSE = RVarCov.diagonal().map(function(d){return Math.sqrt(d);}),
         RTstat = B.col(1).toDiagonalMatrix().x(RSE.toDiagonalMatrix().inverse()).diagonal(),
         result = {};
