@@ -17,13 +17,13 @@ function StudT(t,n) {
 function reg(Y, X1, Robust) {
     var startTime = new Date().getTime();
     if (Robust === undefined) Robust = false;
-    var Ones = sylvester.Matrix.Ones(X1.rows(),1),
-        X = Ones.augment(X1),
-        n = X.rows(),
-        k = X.cols(),
-        XtransXinv = (X.transpose().x(X)).inverse();
+    var Ones = sylvester.Matrix.Ones(X1.rows(),1);
+    var X = Ones.augment(X1);
+    var n = X.rows();
+    var k = X.cols();
+    var XtransXinv = (X.transpose().x(X)).inverse();
     if (XtransXinv === null) return "Collinearity error";
-    if (n-k<=0) return "Too few degrees of freedom for estimating unknowns";
+    if (n-k<=0) return "Too few degrees of freedom for estimating unknowns (" + k + " columns but only " + n + " rows)";
     var B = XtransXinv.x((X.transpose().x(Y))),
         Yhat = X.x(B),
         E = Y.subtract(Yhat),
