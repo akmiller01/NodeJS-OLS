@@ -52,7 +52,7 @@ function reg(Y, X1, Robust) {
         return Math.sqrt(d);
     });
     var diagonalSEInverse = SE.toDiagonalMatrix().inverse();
-    if (diagonalSEInverse == null) { return '' }
+    if (diagonalSEInverse == null) { return "Could not calculate Tstat" }
     var Tstat = B.col(1).toDiagonalMatrix().x(SE.toDiagonalMatrix().inverse()).diagonal();
     var Ybar = Y.col(1).toDiagonalMatrix().trace() / n;
     var R2 = 1 - ((E.transpose().x(E)).e(1, 1) / ((Y.map(function(d) {
@@ -69,7 +69,7 @@ function reg(Y, X1, Robust) {
         return Math.sqrt(d);
     });
     var RSEdiagonalInverse = RSE.toDiagonalMatrix().inverse();
-    if (RSEdiagonalInverse == null) { return '' }
+    if (RSEdiagonalInverse == null) { return "Could not calculate RTstat" }
     var RTstat = B.col(1).toDiagonalMatrix().x(RSEdiagonalInverse).diagonal();
     var result = {};
     result.overall = {
