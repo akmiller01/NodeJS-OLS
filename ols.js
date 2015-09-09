@@ -30,7 +30,7 @@ function StudT(t, n) {
     }
 }
 
-function reg(Y, X1, Robust) {
+function reg(Y, X1, Robust, parameters) {
     var startTime = new Date().getTime();
     if (Robust === undefined) Robust = false;
     var Ones = sylvester.Matrix.Ones(X1.rows(), 1);
@@ -82,15 +82,17 @@ function reg(Y, X1, Robust) {
     };
     var i = 0;
     for (i = 0; i < k; i++) {
+        var name = (parameters && i !== 0) ? parameters[i - 1] : 'B' + i;
+
         if (Robust === false) {
-            result['B' + i] = {
+            result[name] = {
                 'value': B.e(i + 1, 1),
                 'SE': SE.e(i + 1, 1),
                 'Tstat': Tstat.e(i + 1, 1),
                 'Pval': StudT(Tstat.e(i + 1, 1), n - k)
             };
         } else {
-            result['B' + i] = {
+            result[name] = {
                 'value': B.e(i + 1, 1),
                 'SE': RSE.e(i + 1, 1),
                 'Tstat': RTstat.e(i + 1, 1),
