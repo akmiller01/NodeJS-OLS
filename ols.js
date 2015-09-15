@@ -55,11 +55,13 @@ function reg(Y, X1, Robust, parameters) {
     if (diagonalSEInverse == null) { return "Could not calculate Tstat" }
     var Tstat = B.col(1).toDiagonalMatrix().x(SE.toDiagonalMatrix().inverse()).diagonal();
     var Ybar = Y.col(1).toDiagonalMatrix().trace() / n;
-    var R2 = 1 - ((E.transpose().x(E)).e(1, 1) / ((Y.map(function(d) {
+    var SST = ((Y.map(function(d) {
         return d - Ybar;
     })).transpose().x((Y.map(function(d) {
         return d - Ybar;
-    })))).e(1, 1));
+    })))).e(1, 1);
+    var R2 = 1 - ((E.transpose().x(E)).e(1, 1) / SST);
+    var Fstat = ((R2 * SST) / (n - k - 1)) / (RMSE * RMSE);
     var E2 = E.x(E.transpose());
     var Vhat = E2.diagonal().toDiagonalMatrix();
     var RVarCov = XtransXinv.x(X.transpose()).x(Vhat.transpose()).x(X).x(XtransXinv).map(function(d) {
