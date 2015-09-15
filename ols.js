@@ -61,7 +61,7 @@ function reg(Y, X1, Robust, parameters) {
         return d - Ybar;
     })))).e(1, 1);
     var R2 = 1 - ((E.transpose().x(E)).e(1, 1) / SST);
-    var Fstat = ((R2 * SST) / (n - k - 1)) / (RMSE * RMSE);
+    var Fstat = ((R2 * SST) / (k - 1)) / S2;
     var E2 = E.x(E.transpose());
     var Vhat = E2.diagonal().toDiagonalMatrix();
     var RVarCov = XtransXinv.x(X.transpose()).x(Vhat.transpose()).x(X).x(XtransXinv).map(function(d) {
@@ -79,6 +79,7 @@ function reg(Y, X1, Robust, parameters) {
         'params': k,
         'R2': R2,
         'RMSE': RMSE,
+        'Fstat': Fstat,
         'Robust': Robust,
         'Time': ((new Date().getTime()) - startTime) / 1000
     };
