@@ -80,7 +80,7 @@ function reg(Y, X1, parameters) {
     var k = X.cols();
     var XtransXinv = (X.transpose().x(X)).inverse();
     if (XtransXinv === null) return "Collinearity error";
-    if (n - k <= 0) return "Too few degrees of freedom for estimating unknowns (" + k + " variables but only " + n + " observations)";
+    if (k >= n) return "Too few degrees of freedom for estimating unknowns (" + k + " variables but only " + n + " observations)";
     var B = XtransXinv.x((X.transpose().x(Y)));
     var Yhat = X.x(B);
     var E = Y.subtract(Yhat);
