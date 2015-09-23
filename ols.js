@@ -111,7 +111,7 @@ function reg(Y, X1, parameters) {
         'obs': n,
         'params': k,
         'R2': R2,
-        'AdjR2': ((1 - R2)*(n - 1)) / (n - k),
+        'AdjR2': 1 - (((1 - R2)*(n - 1)) / (n - k)),
         'RMSE': RMSE,
         'Fstat': Fstat,
         'Fvalue': FishF(Fstat, k - 1, n - k),
