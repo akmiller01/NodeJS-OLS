@@ -105,13 +105,13 @@ function reg(Y, X1, parameters) {
     })))).e(1, 1);
     var R2 = 1 - ((E.transpose().x(E)).e(1, 1) / SST);
     var Fstat = ((R2 * SST) / (k - 1)) / S2;
-
+    var AdjR2 = 1 - (((1 - R2)*(n - 1)) / (n - k));
     var result = {};
     result.overall = {
         'obs': n,
         'params': k,
         'R2': R2,
-        'AdjR2': 1 - (((1 - R2)*(n - 1)) / (n - k)),
+        'AdjR2': AdjR2 < 0 ? 0 : AdjR2,
         'RMSE': RMSE,
         'Fstat': Fstat,
         'Fvalue': FishF(Fstat, k - 1, n - k),
