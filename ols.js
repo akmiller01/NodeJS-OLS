@@ -1,6 +1,7 @@
 var sylvester = require('sylvester');
-var Pi = Math.PI,
-    PiD2 = Pi / 2;
+const Pi = Math.PI;
+const PiD2 = Pi / 2;
+const highTThreshold = 1.96;
 
 function StatCom(q, i, j, b) {
     var zz = 1;
@@ -60,18 +61,6 @@ function FishF(f, n1, n2) {
     return 1 - a + c
 }
 
-function StatCom(q, i, j, b) {
-    var zz = 1;
-    var z = zz;
-    var k = i;
-    while (k <= j) {
-        zz = zz * q * k / (k - b);
-        z = z + zz;
-        k = k + 2
-    }
-    return z
-}
-
 function reg(Y, X1, parameters) {
     var startTime = new Date().getTime();
     var Ones = sylvester.Matrix.Ones(X1.rows(), 1);
@@ -101,8 +90,8 @@ function reg(Y, X1, parameters) {
     var SST = ((Y.map(function(d) {
         return d - Ybar;
     })).transpose().x((Y.map(function(d) {
-        return d - Ybar;
-    })))).e(1, 1);
+            return d - Ybar;
+        })))).e(1, 1);
     var R2 = 1 - ((E.transpose().x(E)).e(1, 1) / SST);
     var Fstat = ((R2 * SST) / (k - 1)) / S2;
     var AdjR2 = 1 - (((1 - R2)*(n - 1)) / (n - k));
@@ -115,10 +104,11 @@ function reg(Y, X1, parameters) {
         'RMSE': RMSE,
         'Fstat': Fstat,
         'Fvalue': FishF(Fstat, k - 1, n - k),
-        'Time': ((new Date().getTime()) - startTime) / 1000
+        'Time': ((new Date().getTime()) - startTime) / 1000,
+        'AvgT': (Tstat.chomp(1).map(function (d) {return Math.abs(d);})).sum() / (Tstat.cols() - 1),
+        'HighT': (Tstat.chomp(1).map(function (d) {return (Math.abs(d) > highTThreshold) ? 1 : 0})).sum()
     };
-    var i = 0;
-    for (i = 0; i < k; i++) {
+    for (var i = 0; i < k; i++) {
         var name = (parameters && i !== 0) ? parameters[i - 1] : 'B' + i;
         result[name] = {
             'value': B.e(i + 1, 1),
