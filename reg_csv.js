@@ -33,12 +33,6 @@ function pickVars(data){
             message: 'Please use the index numbers to select at least one X variable',
             required: true
           },
-          robust: {
-            description: "Robust standard errors (true or false)",
-            type:'boolean',
-            message: 'true or false',
-            required: true
-          },
         }
     };
     var headers = Object.keys(data[0]),
@@ -71,6 +65,6 @@ function pickVars(data){
         };
         var X = $M(Xarr),
         Y = $M(Yarr);
-        console.log(ols.reg(X,Y,robust));
+        console.log(ols.reg(Y,X,xKeys));
     });
 };

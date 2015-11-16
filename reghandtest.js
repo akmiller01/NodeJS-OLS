@@ -10,7 +10,7 @@ function randomreg(n,k){
     X = X.round();
     console.log('Y: ' + Y.elements);
     console.log('X: ' + JSON.stringify(X.transpose().elements));
-    var reg = ols.reg(Y,X,true);
+    var reg = ols.reg(Y,X);
     return reg;
 }
 
@@ -24,4 +24,4 @@ function staticreg() {
 }
 
 console.log('Random: ' + JSON.stringify(randomreg(10, 4), null, 2));
-// console.log('Known: ' + JSON.stringify(staticreg(), null, 2));
+//console.log('Known: ' + JSON.stringify(staticreg(), null, 2));
